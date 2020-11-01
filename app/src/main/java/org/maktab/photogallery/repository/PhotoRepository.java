@@ -2,6 +2,9 @@ package org.maktab.photogallery.repository;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,6 +12,8 @@ import org.maktab.photogallery.model.GalleryItem;
 import org.maktab.photogallery.network.FlickrFetcher;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +52,7 @@ public class PhotoRepository {
         }
     }
 
+
     private List<GalleryItem> parseJson(JSONObject bodyObject) throws JSONException {
         List<GalleryItem> items = new ArrayList<>();
 
@@ -55,18 +61,32 @@ public class PhotoRepository {
 
         for (int i = 0; i < photoArray.length(); i++) {
             JSONObject photoObject = photoArray.getJSONObject(i);
+            String string = photoObject.toString();
 
             if (!photoObject.has("url_s"))
                 continue;
 
-            String id = photoObject.getString("id");
-            String title = photoObject.getString("title");
-            String url = photoObject.getString("url_s");
+            Gson gson = new Gson();
+            GalleryItem item2 = gson.fromJson( string ,GalleryItem.class);
 
-            GalleryItem item = new GalleryItem(id, title, url);
-            items.add(item);
+            items.add(item2);
         }
 
+//
+//        for (int i = 0; i < photoArray.length(); i++) {
+//            JSONObject photoObject = photoArray.getJSONObject(i);
+//
+//            if (!photoObject.has("url_s"))
+//                continue;
+//
+//            String id = photoObject.getString("id");
+//            String title = photoObject.getString("title");
+//            String url = photoObject.getString("url_s");
+//
+//            GalleryItem item = new GalleryItem(id, title, url);
+//            items.add(item);
+//        }
+//
         return items;
     }
 }
