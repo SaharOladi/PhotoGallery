@@ -94,8 +94,8 @@ public class PhotoGalleryFragment extends Fragment {
         mThumbnailDownloader = new ThumbnailDownloader(uiHandler);
         mThumbnailDownloader.start();
         mThumbnailDownloader.getLooper();
-        mThumbnailDownloader.setListener(
-                new ThumbnailDownloader.ThumbnailDownloaderListener<PhotoHolder>() {
+        mThumbnailDownloader.setThumbnailDownloaderListener(
+                new ThumbnailDownloader.ThumbnailDownloadListener<PhotoHolder>() {
                     @Override
                     public void onThumbnailDownloaded(PhotoHolder target, Bitmap bitmap) {
                         target.bindBitmap(bitmap);
